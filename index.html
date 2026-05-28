@@ -62,6 +62,38 @@
     border:1px solid var(--ink);padding:7px 12px;border-radius:0;
   }
 
+  /* VIDEO */
+  .vid-wrap{
+    position:relative;background:#000;overflow:hidden;
+    aspect-ratio:9/16;max-height:78vh;
+  }
+  .vid-wrap video{
+    width:100%;height:100%;object-fit:cover;display:block;
+  }
+  .vid-wrap .ov{
+    position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(180deg, rgba(0,0,0,.0) 30%, rgba(0,0,0,.5) 100%);
+  }
+  .vid-wrap .copy{
+    position:absolute;left:22px;right:22px;bottom:22px;color:var(--cream);
+  }
+  .vid-wrap .copy small{font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:#d9c79a}
+  .vid-wrap .copy b{
+    display:block;font-family:"Cormorant Garamond",serif;font-weight:300;font-style:italic;
+    font-size:32px;line-height:1.1;margin-top:8px;
+  }
+  .vid-wrap .unmute{
+    position:absolute;top:14px;right:14px;
+    background:rgba(0,0,0,.45);color:var(--cream);
+    border:1px solid rgba(243,236,223,.35);
+    padding:8px 12px;font-size:10px;letter-spacing:.24em;text-transform:uppercase;
+    backdrop-filter:blur(6px);
+  }
+  .vid-wrap .tag{
+    position:absolute;top:14px;left:14px;background:var(--ink);color:var(--cream);
+    font-size:10px;letter-spacing:.28em;text-transform:uppercase;padding:6px 10px;
+  }
+
   /* HERO */
   .hero{
     background:var(--black);color:var(--cream);
@@ -405,6 +437,17 @@
   </div>
 </section>
 
+<section class="vid-wrap" id="vid">
+  <video id="hero-video" src="assets/ai-video.mp4" poster="assets/ai-hero.jpg" autoplay muted loop playsinline preload="metadata"></video>
+  <span class="tag">Spot · 8 sek</span>
+  <button class="unmute" id="unmute" type="button" aria-label="Ton einschalten">Ton an</button>
+  <div class="ov"></div>
+  <div class="copy">
+    <small>Reine Pflanzenkraft</small>
+    <b>Aus Oesterreich, mit Code <span style="color:#fff">PURE10</span>.</b>
+  </div>
+</section>
+
 <div class="ship" id="ship" aria-live="polite">
   <div class="lbl"><span>Gratisversand ab 42,90 €</span><span><b id="ship-rest">42,90 €</b> fehlen</span></div>
   <div class="bar"><i id="ship-bar"></i></div>
@@ -708,6 +751,15 @@
       paintShip();
       ship.animate([{background:'#f3d9a0'},{background:'var(--paper-2)'}],{duration:900});
     });
+  });
+
+  // ---------- VIDEO UNMUTE ----------
+  const vid = document.getElementById('hero-video');
+  const unmute = document.getElementById('unmute');
+  unmute.addEventListener('click', ()=>{
+    vid.muted = !vid.muted;
+    unmute.textContent = vid.muted ? 'Ton an' : 'Ton aus';
+    if(!vid.muted){ vid.currentTime = 0; vid.play(); }
   });
 
   // ---------- STICKY CTA ----------
