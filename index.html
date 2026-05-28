@@ -82,6 +82,13 @@
   .hero .lede{
     margin-top:20px;font-size:15.5px;line-height:1.6;color:#cec5b1;max-width:36ch;
   }
+  .stars{
+    margin-top:16px;display:flex;align-items:center;gap:10px;color:#d9c79a;
+    font-size:12px;letter-spacing:.06em;
+  }
+  .stars .s{letter-spacing:.1em;font-size:14px}
+  .stars b{font-family:"Cormorant Garamond",serif;font-size:16px;color:#fff;font-weight:500}
+  .stars span{color:#a89e8a;font-size:11px;letter-spacing:.18em;text-transform:uppercase}
   .hero-img{
     margin-top:28px;position:relative;aspect-ratio:1170/720;
     background:#000;overflow:hidden;
@@ -97,6 +104,26 @@
     font-size:10px;letter-spacing:.28em;text-transform:uppercase;
   }
   .hero-caption .lg{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:18px;letter-spacing:0;text-transform:none;color:#e9dfc6}
+
+  /* FREE SHIPPING BAR */
+  .ship{
+    background:var(--paper-2);color:var(--ink);
+    padding:14px 22px;border-bottom:1px solid var(--line);
+    display:flex;flex-direction:column;gap:8px;
+  }
+  .ship .lbl{
+    display:flex;justify-content:space-between;font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  }
+  .ship .lbl b{color:var(--accent);font-weight:600}
+  .ship .bar{
+    height:6px;background:#dccfa8;position:relative;overflow:hidden;
+  }
+  .ship .bar i{
+    position:absolute;left:0;top:0;bottom:0;width:0;background:var(--ink);
+    transition:width 1.4s cubic-bezier(.2,.7,.2,1);
+  }
+  .ship.full .bar i{background:var(--leaf)}
+  .ship small{font-size:11px;color:var(--mute);line-height:1.4}
 
   /* VOUCHER strip */
   .voucher{
@@ -115,6 +142,56 @@
   .voucher h2 i{font-style:italic}
   .voucher .num{font-weight:500;color:var(--ink)}
   .voucher p{font-size:14px;color:#3a342a;max-width:34ch}
+
+  /* COUNTDOWN */
+  .clock{
+    display:flex;gap:8px;margin-top:18px;
+  }
+  .clock div{
+    flex:1;background:#fff;border:1px solid var(--ink);padding:10px 8px;text-align:center;
+  }
+  .clock b{
+    font-family:"Cormorant Garamond",serif;font-weight:400;font-size:30px;
+    line-height:1;color:var(--ink);display:block;letter-spacing:-.01em;
+    font-variant-numeric:tabular-nums;
+  }
+  .clock small{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--mute);display:block;margin-top:4px}
+  .clock-lbl{
+    margin-top:14px;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);
+  }
+
+  /* EMAIL GATE */
+  .gate{margin-top:18px}
+  .gate-row{
+    display:flex;border:1px solid var(--ink);background:#fff;
+  }
+  .gate-row input{
+    flex:1;border:0;padding:14px 14px;font:inherit;font-size:15px;color:var(--ink);background:transparent;outline:0;
+    font-family:"Inter Tight",sans-serif;
+  }
+  .gate-row input::placeholder{color:#9a907b}
+  .gate-row button{
+    background:var(--ink);color:var(--cream);
+    padding:0 18px;font-size:11px;letter-spacing:.24em;text-transform:uppercase;font-weight:500;
+  }
+  .gate small{font-size:11px;color:var(--mute);display:block;margin-top:8px;line-height:1.5}
+  .gate.revealed .gate-row{display:none}
+  .reveal{
+    display:none;border:1px dashed var(--ink);background:#fff;padding:18px 16px;text-align:center;
+    margin-top:6px;
+  }
+  .gate.revealed .reveal{display:block;animation:rise .6s both}
+  .reveal .c{
+    font-family:"Inter Tight",sans-serif;font-weight:500;font-size:24px;letter-spacing:.5em;color:var(--ink);
+  }
+  .reveal .ok{
+    font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--leaf);margin-bottom:6px;
+  }
+  .reveal button{
+    margin-top:10px;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);
+    border-bottom:1px solid var(--accent);padding:2px 0;
+  }
+  .code-hidden{filter:blur(8px);user-select:none;pointer-events:none}
   .code{
     margin-top:18px;display:flex;
     border:1px solid var(--ink);background:#fff;
@@ -313,6 +390,11 @@
       Kaltgepresste Pflanzenoele. 100% bio-zertifiziert.
       In der Steiermark hergestellt — CO<sub>2</sub>-neutral.
     </p>
+    <div class="stars rise d3" aria-label="Bewertung 5 von 5 Sternen">
+      <span class="s">★ ★ ★ ★ ★</span>
+      <b>5.0</b>
+      <span>verifiziert auf pureskinfood.net</span>
+    </div>
   </div>
   <div class="hero-img rise d4">
     <img src="assets/hero.png" alt="PURE SKIN FOOD — Frischekosmetik" loading="eager" fetchpriority="high" />
@@ -323,16 +405,37 @@
   </div>
 </section>
 
+<div class="ship" id="ship" aria-live="polite">
+  <div class="lbl"><span>Gratisversand ab 42,90 €</span><span><b id="ship-rest">42,90 €</b> fehlen</span></div>
+  <div class="bar"><i id="ship-bar"></i></div>
+  <small>Lieferung in 2 Werktagen · plastikfreier Versand · kostenlose Retoure</small>
+</div>
+
 <section class="voucher" id="voucher">
   <div class="wrap">
     <span class="tag">Dein Willkommen</span>
     <h2><span class="num">−10%</span> auf<br/><i>alles.</i></h2>
     <p>Gueltig auf das gesamte Sortiment. Im Warenkorb einloesen. Nicht mit anderen Aktionen kombinierbar.</p>
 
-    <div class="code" role="group" aria-label="Gutscheincode">
-      <span id="code">PURE10</span>
-      <button id="copy" type="button" aria-live="polite">Kopieren</button>
+    <div class="clock-lbl">Aktion endet in</div>
+    <div class="clock" aria-label="Countdown">
+      <div><b id="cd-h">--</b><small>Stunden</small></div>
+      <div><b id="cd-m">--</b><small>Minuten</small></div>
+      <div><b id="cd-s">--</b><small>Sekunden</small></div>
     </div>
+
+    <form class="gate" id="gate" novalidate>
+      <div class="gate-row">
+        <input type="email" id="email" placeholder="deine@email.at" required autocomplete="email" inputmode="email" aria-label="E-Mail" />
+        <button type="submit">Code freischalten</button>
+      </div>
+      <div class="reveal" aria-live="polite">
+        <div class="ok">✓ Code freigeschaltet — auch per E-Mail gesendet</div>
+        <div class="c">PURE10</div>
+        <button type="button" id="copy">Code kopieren</button>
+      </div>
+      <small id="gate-note">Trag deine E-Mail ein — wir schicken dir den Code, einmalige Nutzung. Kein Spam, jederzeit abbestellbar.</small>
+    </form>
 
     <div class="cta">
       <a class="primary" href="https://www.pureskinfood.net/" target="_blank" rel="noopener">Jetzt einloesen</a>
@@ -357,6 +460,23 @@
     <h2 class="h">Konzentrierte<br/><i>Pflanzenkraft.</i></h2>
 
     <div class="products">
+      <article class="card" style="border:1px solid var(--ink);padding:14px;background:var(--paper-2)">
+        <div class="ph" style="aspect-ratio:1.4/1;background:var(--paper)">
+          <img src="assets/hero2.jpg" alt="Pure Skin Food Bundle" loading="lazy" style="object-fit:cover" />
+          <span class="num">00</span>
+          <span class="badge" style="background:var(--accent)">Trio · −15%</span>
+        </div>
+        <div class="meta">
+          <small>Bundle · Boobs + Belly + Cellulite</small>
+          <h3>Pflege-Trio</h3>
+          <span class="price"><s>74,07 €</s>56,67 €</span>
+          <p>Alle drei Bestseller zusammen — zusaetzlich zum 10% Willkommensgutschein. Spart bis zu 17,40 € gegenueber Einzelkauf.</p>
+          <div class="buy">
+            <a href="https://www.pureskinfood.net/" target="_blank" rel="noopener">Trio sichern</a>
+          </div>
+        </div>
+      </article>
+
       <article class="card">
         <div class="ph">
           <img src="assets/prod-boobs.jpg" alt="Organic Boobs Oil — Brustmassageoel" loading="lazy" />
@@ -501,16 +621,87 @@
 </div>
 
 <script>
-  const btn = document.getElementById('copy');
-  const code = document.getElementById('code').textContent.trim();
-  btn.addEventListener('click', async () => {
-    try{
-      await navigator.clipboard.writeText(code);
-      btn.textContent='Kopiert';btn.classList.add('copied');
-      setTimeout(()=>{btn.textContent='Kopieren';btn.classList.remove('copied')},2200);
-    }catch(e){ btn.textContent=code; }
+  // ---------- COUNTDOWN: ends Sunday 23:59 of current week ----------
+  function endTarget(){
+    const stored = localStorage.getItem('psf_deadline');
+    if(stored){ const t = parseInt(stored,10); if(t > Date.now()) return t; }
+    const d = new Date();
+    const day = d.getDay() || 7;       // Mon=1..Sun=7
+    const add = 7 - day;
+    d.setHours(23,59,59,0); d.setDate(d.getDate()+add);
+    localStorage.setItem('psf_deadline', d.getTime());
+    return d.getTime();
+  }
+  const deadline = endTarget();
+  const elH=document.getElementById('cd-h'), elM=document.getElementById('cd-m'), elS=document.getElementById('cd-s');
+  function pad(n){return String(n).padStart(2,'0')}
+  function tick(){
+    const diff = Math.max(0, deadline - Date.now());
+    const h = Math.floor(diff/3.6e6), m = Math.floor(diff%3.6e6/6e4), s = Math.floor(diff%6e4/1000);
+    elH.textContent=pad(h); elM.textContent=pad(m); elS.textContent=pad(s);
+  }
+  tick(); setInterval(tick,1000);
+
+  // ---------- EMAIL GATE ----------
+  const gate = document.getElementById('gate');
+  const email = document.getElementById('email');
+  const note  = document.getElementById('gate-note');
+  const code  = 'PURE10';
+
+  if(localStorage.getItem('psf_unlocked')==='1') gate.classList.add('revealed');
+
+  gate.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    const v = email.value.trim();
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)){
+      note.textContent = 'Bitte gueltige E-Mail-Adresse eingeben.';
+      note.style.color = 'var(--accent)';
+      email.focus(); return;
+    }
+    localStorage.setItem('psf_email', v);
+    localStorage.setItem('psf_unlocked','1');
+    gate.classList.add('revealed');
+    note.textContent = 'Wir haben den Code an ' + v + ' geschickt.';
+    note.style.color = 'var(--leaf)';
   });
 
+  document.getElementById('copy').addEventListener('click', async (e)=>{
+    const b = e.currentTarget;
+    try{
+      await navigator.clipboard.writeText(code);
+      b.textContent='✓ Kopiert';
+      setTimeout(()=>{b.textContent='Code kopieren'},2200);
+    }catch(_){ b.textContent=code; }
+  });
+
+  // ---------- FREE SHIPPING progress (simulated based on bundle CTA) ----------
+  const ship = document.getElementById('ship'), bar = document.getElementById('ship-bar'), rest = document.getElementById('ship-rest');
+  const goal = 42.90;
+  let cart = parseFloat(localStorage.getItem('psf_cart')||'0');
+  function paintShip(){
+    const pct = Math.min(100, (cart/goal)*100);
+    bar.style.width = pct + '%';
+    const left = Math.max(0, goal - cart);
+    rest.textContent = left.toFixed(2).replace('.',',') + ' €';
+    ship.classList.toggle('full', left<=0);
+    if(left<=0) ship.querySelector('.lbl span').textContent = '✓ Gratisversand erreicht';
+  }
+  paintShip();
+  // Add to virtual cart when clicking any "Mit PURE10 kaufen" or Trio
+  document.querySelectorAll('.card .buy a').forEach(a=>{
+    a.addEventListener('click', ()=>{
+      const txt = a.closest('.card').querySelector('.price').childNodes;
+      // pick last text node = final price
+      const priceEl = a.closest('.card').querySelector('.price');
+      const final = priceEl.lastChild.textContent.replace(/[^\d,]/g,'').replace(',','.');
+      cart += parseFloat(final)||0;
+      localStorage.setItem('psf_cart', cart);
+      paintShip();
+      ship.animate([{background:'#f3d9a0'},{background:'var(--paper-2)'}],{duration:900});
+    });
+  });
+
+  // ---------- STICKY CTA ----------
   const stick = document.getElementById('stick');
   const target = document.querySelector('.voucher');
   const io = new IntersectionObserver((ents)=>{
